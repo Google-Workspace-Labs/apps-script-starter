@@ -1,17 +1,17 @@
 {
   "name": "apps-script-starter",
   "version": "1.0.0",
-  "description": "Google Apps Script starter template with TypeScript and workspace-core",
+  "description": "Google Apps Script monorepo starter with TypeScript and workspace-core",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "projects/*"
+  ],
   "scripts": {
-    "build": "node esbuild.config.mjs",
-    "watch": "node esbuild.config.mjs --watch",
-    "push": "npm run build && clasp push",
-    "pull": "clasp pull",
-    "open": "clasp open",
-    "deploy": "npm run build && clasp push && clasp deploy",
-    "logs": "clasp logs"
+    "build:all": "npm run build --workspaces",
+    "watch:all": "npm run watch --workspaces",
+    "push:all": "npm run push --workspaces",
+    "new": "./scripts/create-project.sh"
   },
   "keywords": [
     "google-apps-script",

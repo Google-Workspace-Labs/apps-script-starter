@@ -31,10 +31,6 @@
     // Output
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": false,
-    "outDir": "./dist",
-    "rootDir": "./src"
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+    "sourceMap": false
+  }
 }

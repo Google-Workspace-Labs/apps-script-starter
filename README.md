@@ -1,63 +1,96 @@
-# Apps Script Starter
+# Apps Script Starter (Monorepo)
 
-Google Apps Script 프로젝트를 TypeScript로 빠르게 시작하기 위한 템플릿
+Google Apps Script 프로젝트를 TypeScript로 개발하고 여러 프로젝트를 하나의 레포에서 관리하는 모노레포 템플릿
 
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)](https://www.typescriptlang.org/)
-[![workspace-core](https://img.shields.io/badge/workspace--core-v2-purple)](https://github.com/Google-Workspace-Labs/workspace-core)
+[![workspace-core](https://img.shields.io/badge/workspace--core-v3-purple)](https://github.com/Google-Workspace-Labs/workspace-core)
 
 ---
 
-## ⚡ 빠른 시작 (30초)
+## ⚡ 빠른 시작
 
 ### 1. 템플릿 사용
 
 GitHub에서 **"Use this template"** 버튼 클릭 → 새 레포지토리 생성
 
-### 2. Apps Script 프로젝트 생성
-
-1. https://script.google.com 접속
-2. **새 프로젝트** 생성
-3. **프로젝트 설정** → **Script ID** 복사
-
-### 3. 로컬 설정
+### 2. 로컬에 클론
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/your-project.git
-cd your-project
+git clone https://github.com/YOUR_USERNAME/your-monorepo.git
+cd your-monorepo
+```
 
-# 자동 초기화 (프로젝트 이름 + Script ID 입력)
+### 3. 초기화
+
+```bash
+# 전체 모노레포 초기화
 ./scripts/setup.sh
 ```
 
-### 4. 개발 시작
+### 4. 새 프로젝트 생성
 
 ```bash
-# 파일 감시 + 자동 빌드
-npm run watch
+# 새 Apps Script 프로젝트 추가
+npm run new my-app
 
-# (다른 터미널에서) 배포
-npm run push
+# 프로젝트 디렉토리로 이동
+cd projects/my-app
 
-# Apps Script 에디터 열기
-npm run open
+# 개발 시작
+npm run watch    # 파일 감시 + 자동 빌드
+npm run push     # Apps Script 배포
+npm run open     # Apps Script 에디터 열기
 ```
 
 **끝!** 🎉
 
 ---
 
-## 📚 주요 기능
+## 📁 프로젝트 구조
 
-- ✅ **TypeScript** - 타입 안전성과 자동완성
-- ✅ **workspace-core** - 공통 유틸리티 자동 연동
-- ✅ **Hot Reload** - 파일 변경 감지 및 자동 빌드
-- ✅ **자동화 스크립트** - setup.sh로 30초 초기화
-- ✅ **간편한 배포** - `npm run push` 한 번에 배포
+```
+your-monorepo/
+├── projects/                 # 모든 Apps Script 프로젝트
+│   ├── example/             # 예제 프로젝트
+│   │   ├── src/
+│   │   │   ├── Code.ts     # 메인 진입점
+│   │   │   ├── config/     # 설정 파일
+│   │   │   └── utils/      # 유틸리티
+│   │   ├── dist/           # 빌드 결과물 (자동 생성)
+│   │   ├── index.html      # Web App HTML
+│   │   ├── appsscript.json # Apps Script 설정
+│   │   ├── .clasp.json     # Script ID (개별)
+│   │   ├── package.json    # 프로젝트별 의존성
+│   │   ├── tsconfig.json   # TypeScript 설정
+│   │   └── esbuild.config.mjs # 빌드 설정
+│   │
+│   ├── my-app/             # 사용자 프로젝트 1
+│   └── another-app/        # 사용자 프로젝트 2
+│
+├── scripts/
+│   ├── setup.sh            # 모노레포 초기화
+│   └── create-project.sh   # 새 프로젝트 생성
+│
+├── package.json            # 루트 (workspaces 설정)
+├── tsconfig.base.json      # 공통 TypeScript 설정
+└── README.md
+```
 
 ---
 
 ## 🔧 주요 명령어
+
+### 모노레포 전체
+
+| 명령어 | 설명 |
+|--------|------|
+| `npm run new <name>` | 새 프로젝트 생성 |
+| `npm run build:all` | 모든 프로젝트 빌드 |
+| `npm run watch:all` | 모든 프로젝트 감시 |
+| `npm run push:all` | 모든 프로젝트 배포 |
+
+### 개별 프로젝트 (projects/프로젝트명/)
 
 | 명령어 | 설명 |
 |--------|------|
@@ -70,29 +103,59 @@ npm run open
 
 ---
 
-## 📁 프로젝트 구조
+## 📚 주요 기능
 
-```
-your-project/
-├── src/
-│   ├── Code.ts           # 메인 진입점 (여기서 시작!)
-│   ├── config/           # 설정 파일
-│   └── utils/            # 프로젝트 유틸리티
-├── dist/                 # 빌드 결과물 (자동 생성)
-├── scripts/
-│   └── setup.sh          # 자동 초기화 스크립트
-├── index.html            # Web App HTML
-├── appsscript.json       # Apps Script 설정
-├── esbuild.config.mjs    # 빌드 설정
-├── tsconfig.json         # TypeScript 설정
-└── package.json
+- ✅ **모노레포** - 여러 Apps Script 프로젝트를 하나의 레포에서 관리
+- ✅ **TypeScript** - 타입 안전성과 자동완성
+- ✅ **workspace-core** - 공통 유틸리티 자동 연동
+- ✅ **Hot Reload** - 파일 변경 감지 및 자동 빌드
+- ✅ **빠른 프로젝트 생성** - `npm run new` 한 번에 새 프로젝트 추가
+- ✅ **독립적 배포** - 각 프로젝트는 독립된 Script ID로 관리
+
+---
+
+## 🚀 새 프로젝트 추가하기
+
+### Step 1: 프로젝트 생성
+
+```bash
+# 루트 디렉토리에서 실행
+npm run new my-new-app
 ```
 
-**시작 파일**: `src/Code.ts`를 열어서 개발을 시작하세요!
+이 명령은 자동으로:
+- `projects/my-new-app/` 디렉토리 생성
+- Apps Script 프로젝트 생성 (clasp)
+- 기본 파일 구조 생성 (src/Code.ts, index.html 등)
+- workspace-core 연동 설정
+
+### Step 2: Script ID 확인
+
+```bash
+cd projects/my-new-app
+cat .clasp.json  # scriptId 확인
+```
+
+### Step 3: 개발 시작
+
+```bash
+npm install      # 의존성 설치
+npm run build    # 빌드 테스트
+npm run watch    # 개발 모드
+```
+
+### Step 4: 배포
+
+```bash
+npm run push     # Apps Script에 배포
+npm run open     # 에디터에서 확인
+```
 
 ---
 
 ## 🌟 workspace-core 사용 예시
+
+모든 프로젝트는 workspace-core를 사용할 수 있습니다.
 
 ### 날짜 포맷팅
 
@@ -132,67 +195,62 @@ try {
 }
 ```
 
-### 배열 유틸리티
-
-```typescript
-// 청크 분할
-const chunks = WorkspaceCore.chunk([1, 2, 3, 4, 5], 2);
-// [[1, 2], [3, 4], [5]]
-
-// 중복 제거
-const unique = WorkspaceCore.unique([1, 2, 2, 3, 3, 3]);
-// [1, 2, 3]
-```
-
 **더 많은 기능**: [workspace-core 문서](https://github.com/Google-Workspace-Labs/workspace-core)
 
 ---
 
-## 🚀 배포
-
-### 로컬 배포
-
-```bash
-npm run push
-```
-
-### 웹 앱 배포
-
-```bash
-npm run deploy
-```
-
-배포 후 Apps Script 에디터에서:
-1. **배포** → **새 배포**
-2. **유형** → **웹 앱**
-3. **액세스 권한** 설정
-4. **배포** 클릭
-
----
-
-## 🎨 커스터마이징
+## 🎨 프로젝트 커스터마이징
 
 ### HTML 수정
 
-`index.html` 파일을 수정하여 웹 앱 UI 커스터마이징
+각 프로젝트의 `index.html` 파일을 수정하여 웹 앱 UI 커스터마이징
 
 ### TypeScript 코드
 
 `src/Code.ts`와 `src/utils/`에서 로직 구현
 
-### workspace-core 업데이트
+### workspace-core 버전 업데이트
 
-`appsscript.json`에서 버전 변경:
+각 프로젝트의 `appsscript.json`에서 버전 변경:
 
 ```json
 {
   "dependencies": {
     "libraries": [{
-      "version": "3"  // 최신 버전으로 변경
+      "version": "4"  // 최신 버전으로 변경
     }]
   }
 }
 ```
+
+---
+
+## 💡 모노레포 장점
+
+### 단일 프로젝트 vs 모노레포
+
+**단일 프로젝트 (Before)**
+```
+❌ 프로젝트마다 별도 레포지토리
+❌ 중복된 설정 파일
+❌ 공통 코드 복사/붙여넣기
+❌ 의존성 관리 복잡
+```
+
+**모노레포 (After)**
+```
+✅ 하나의 레포에서 여러 프로젝트 관리
+✅ 공통 설정 재사용 (tsconfig.base.json)
+✅ workspace-core로 공통 기능 공유
+✅ npm workspaces로 의존성 통합 관리
+```
+
+### 언제 모노레포를 사용할까?
+
+- 관련된 여러 Apps Script 프로젝트 개발
+- 회사/팀에서 여러 자동화 도구 관리
+- 공통 로직을 여러 프로젝트에서 사용
+- 일관된 코드 스타일과 설정 유지
 
 ---
 
@@ -201,6 +259,34 @@ npm run deploy
 - [workspace-core API](https://github.com/Google-Workspace-Labs/workspace-core)
 - [Apps Script 공식 문서](https://developers.google.com/apps-script)
 - [TypeScript 공식 문서](https://www.typescriptlang.org/)
+- [npm workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces)
+
+---
+
+## 🙋 FAQ
+
+### Q: 프로젝트를 몇 개까지 추가할 수 있나요?
+
+A: 제한 없습니다. `npm run new` 명령으로 원하는 만큼 추가할 수 있습니다.
+
+### Q: 각 프로젝트는 독립적으로 배포되나요?
+
+A: 네, 각 프로젝트는 독립된 Script ID와 .clasp.json을 가지므로 개별 배포 가능합니다.
+
+### Q: 기존 Apps Script 프로젝트를 이전할 수 있나요?
+
+A: 가능합니다.
+1. `npm run new existing-project` 실행
+2. 기존 코드를 `projects/existing-project/src/`로 복사
+3. `.clasp.json`에 기존 Script ID 입력
+
+### Q: 모노레포가 너무 복잡하면?
+
+A: 단순한 프로젝트는 `projects/` 안에 하나만 두고 사용해도 됩니다.
+
+### Q: workspace-core 없이 사용할 수 있나요?
+
+A: 네. 각 프로젝트의 `appsscript.json`에서 dependencies를 삭제하면 됩니다.
 
 ---
 
@@ -219,26 +305,6 @@ npm run deploy
 ## 📄 라이선스
 
 MIT License - 자유롭게 사용하세요
-
----
-
-## 🙋 FAQ
-
-### Q: TypeScript를 꼭 써야 하나요?
-
-A: 아니요. src/Code.ts를 .js로 바꾸고 tsconfig.json을 삭제해도 됩니다.
-
-### Q: workspace-core 없이 사용할 수 있나요?
-
-A: 네. `appsscript.json`에서 dependencies를 삭제하면 됩니다.
-
-### Q: 다른 라이브러리를 추가하려면?
-
-A: `appsscript.json`의 libraries 배열에 추가하세요.
-
-### Q: 빌드 에러가 발생하면?
-
-A: `npm install`을 다시 실행하고, `node_modules`와 `dist` 폴더를 삭제 후 재시도하세요.
 
 ---
 
