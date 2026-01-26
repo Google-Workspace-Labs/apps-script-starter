@@ -27,10 +27,6 @@ Thumbs.db
 *.swo
 *~
 
-# Claude Code
-CLAUDE.md
-.claude/
-
 # TypeScript
 *.tsbuildinfo
 

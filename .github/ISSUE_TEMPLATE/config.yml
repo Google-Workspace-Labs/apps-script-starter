@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📚 문서
+    url: https://github.com/Google-Workspace-Labs/apps-script-projects/tree/main/docs
+    about: 가이드 문서를 먼저 확인해보세요
+  - name: 💬 질문 및 토론
+    url: https://github.com/Google-Workspace-Labs/apps-script-projects/discussions
+    about: 일반적인 질문은 Discussions에서 논의해주세요
