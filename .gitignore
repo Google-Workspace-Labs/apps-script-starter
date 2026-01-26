@@ -3,9 +3,9 @@ node_modules/
 
 # Build Output
 dist/
+build/
 
-# Apps Script
-.clasp.json
+# Apps Script (개인 인증 정보 - 절대 공유 금지)
 .clasprc.json
 
 # Environment
@@ -27,5 +27,12 @@ Thumbs.db
 *.swo
 *~
 
+# Claude Code
+CLAUDE.md
+.claude/
+
 # TypeScript
 *.tsbuildinfo
+
+# ESLint
+.eslintcache
