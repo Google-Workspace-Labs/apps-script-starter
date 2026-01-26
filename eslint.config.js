@@ -111,38 +111,16 @@ const allGlobals = {
 };
 
 /**
- * Apps Script Simple Triggers (예약 함수명)
- * https://developers.google.com/apps-script/guides/triggers
+ * Apps Script 특성
  *
- * 이 함수들은 코드에서 직접 호출되지 않아도
- * Apps Script 런타임에서 자동 실행되므로 no-unused-vars 제외
- */
-const APPS_SCRIPT_TRIGGERS = [
-  'onOpen',
-  'onInstall',
-  'onEdit',
-  'onSelectionChange',
-  'doGet',
-  'doPost',
-];
-
-/**
- * 커스텀 예약 함수 (프로젝트별 추가)
+ * Apps Script에서는 모든 최상위 함수가 잠재적으로 외부에서 호출 가능합니다:
+ * - Simple Triggers (onOpen, doGet, doPost 등)
+ * - GAS 에디터에서 직접 실행
+ * - google.script.run으로 클라이언트 호출
+ * - HTML 템플릿에서 <?!= include() ?>로 호출
  *
- * HTML 템플릿에서 호출되거나, 외부에서 트리거되는 함수들
- * 여기에 추가하면 no-unused-vars 경고가 발생하지 않음
+ * 따라서 no-unused-vars 규칙을 끄고, 실제 미사용 함수는 수동으로 관리합니다.
  */
-const CUSTOM_RESERVED_FUNCTIONS = [
-  'include', // HTML 템플릿에서 <?!= include('filename') ?>로 호출
-  'processLocationData', // 클라이언트에서 google.script.run.processLocationData() 호출
-  'testWorkspaceCore', // 테스트/디버깅 함수 (Apps Script 에디터에서 실행)
-  'sendSolapiSMS', // solapi 프로젝트: SMS 전송 메인 함수
-  'getConfig', // 다른 파일에서 호출되는 설정 유틸리티 함수
-  // 프로젝트별로 필요한 함수 추가:
-  // 'onFormSubmit',
-  // 'handleWebhook',
-  // 'apiEndpoint',
-];
 
 /**
  * ESLint Flat Config (ESM)
@@ -173,17 +151,17 @@ export default [
     },
 
     rules: {
-      'no-var': 'error',
-      'prefer-const': 'warn',
-      'prefer-arrow-callback': 'warn',
-      'no-unused-vars': [
-        'warn',
-        {
-          argsIgnorePattern: '^_',
-          // 기본 트리거 + 커스텀 함수 정규식 패턴 생성
-          varsIgnorePattern: `^(${[...APPS_SCRIPT_TRIGGERS, ...CUSTOM_RESERVED_FUNCTIONS].join('|')})$`,
-        },
-      ],
+      // 🔴 Error (반드시 지켜야 함)
+      'no-var': 'error', // var 사용 금지
+      'no-undef': 'error', // 정의되지 않은 변수 사용 금지
+      'no-redeclare': 'error', // 변수 재선언 금지
+
+      // 🟡 Warning (권장사항)
+      'prefer-const': 'warn', // 재할당 없는 변수는 const 사용
+      'prefer-arrow-callback': 'warn', // 화살표 함수 권장
+
+      // ⚪ Off (Apps Script 특성상 제외)
+      'no-unused-vars': 'off', // 최상위 함수는 외부 호출 가능하므로 제외
 
       // Prettier와 충돌 방지
       ...eslintConfigPrettier.rules,

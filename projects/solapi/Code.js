@@ -1,3 +1,5 @@
+/* global getConfig */
+
 function sendSolapiSMS() {
   // ✅ 1. Config에서 안전하게 API 정보 가져오기
   const config = getConfig();
