@@ -388,6 +388,29 @@ const canEdit = user.role === 'admin';
 2. 대부분의 npm 패키지/프로젝트가 소문자 사용
 3. `Code.js`는 Apps Script의 특수 케이스로 예외 허용
 
+**미사용 변수 규칙:**
+
+의도적으로 사용하지 않는 변수는 `_`로 시작하세요:
+
+```javascript
+// ✅ 권장: 미사용 변수는 _로 시작
+const _unusedPassword = 'not-needed';
+const { name, _id, _token } = apiResponse;  // id와 token은 사용 안 함
+
+// 파라미터에도 적용
+function handleEvent(event, _metadata) {  // metadata는 사용 안 함
+  console.log(event.type);
+}
+
+// 구조 분해 할당에서도 활용
+const [first, _second, third] = arr;  // second는 무시
+```
+
+**이유:**
+1. 코드 리뷰 시 의도가 명확함 (실수가 아니라 의도적으로 안 씀)
+2. ESLint `no-unused-vars` 규칙 예외 (현재는 off지만 향후 대비)
+3. 다른 개발자가 보기에 혼란 방지
+
 ### ❌ 금지
 
 ```javascript
