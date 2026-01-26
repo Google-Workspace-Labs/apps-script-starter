@@ -89,6 +89,34 @@ Apps Script는 npm 패키지를 런타임에 사용할 수 없습니다.
 - apps-script-library 사용
 - Google API 활용
 
+### IDE 자동완성 (중요!)
+
+**`@types/google-apps-script`는 필수입니다:**
+
+```json
+// package.json
+{
+  "devDependencies": {
+    "@types/google-apps-script": "^1.0.83"  // ✅ 반드시 필요
+  }
+}
+```
+
+**이유:**
+- ✅ VS Code, WebStorm 등 IDE에서 Apps Script API 자동완성 제공
+- ✅ `SpreadsheetApp`, `Logger`, `UrlFetchApp` 등 타입 정의
+- ✅ 개발 생산성 향상 (API 문서 없이도 개발 가능)
+- ⚠️ 런타임에는 사용되지 않음 (devDependencies)
+
+**효과:**
+```javascript
+// @types/google-apps-script 있을 때
+SpreadsheetApp.   // ← IDE가 자동완성 제공 (getActiveSheet, openById, etc.)
+
+// @types/google-apps-script 없을 때
+SpreadsheetApp.   // ← 아무것도 안 나옴
+```
+
 ---
 
 ## 🔗 참고
